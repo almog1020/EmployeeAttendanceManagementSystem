@@ -38,31 +38,31 @@ def add_employee(id_user, name, phone, age):
             input("Enter the correct number: ")
         elif option == "1":
             id_user = input("Enter id: ")
-            if employee.SetId(id_user):
+            if employee.set_id(id_user):
                 print("The id change")
             else:
                 print("No change")
         elif option == "2":
             name = input("Enter name: ")
-            if employee.SetName(name):
+            if employee.set_name(name):
                 print("The name change")
             else:
                 print("No change")
         elif option == "3":
             phone = input("Enter phone: ")
-            if employee.SetPhone(phone):
+            if employee.set_phone(phone):
                 print("The phone change ")
             else:
                 print("No change")
         elif option == "4":
             age = input("Enter age: ")
-            if employee.SetAge(age):
+            if employee.set_age(age):
                 print("The age change")
             else:
                 print("No change")
         elif option == "5":
             with open('employee.txt', 'a+') as f:
-                f.write("\n" + employee.GetDetails())
+                f.write("\n" + employee.get_details())
                 return True
         else:
             return False
