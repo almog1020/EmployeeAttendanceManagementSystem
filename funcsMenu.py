@@ -2,15 +2,90 @@ import funcs
 from os.path import exists as file_exists
 
 
+def transition_command(command):
+    match command:
+        case "1":
+            print("The function is add employee manually")
+            if not menu_bar():
+                return
+            operate_add_employee_manually()
+        case "2":
+            print("The function is add employees from file")
+            if not menu_bar():
+                return
+            add_employee_from_file("newEmployee.txt")
+        case "3":
+            print("The function is delete employee manually")
+            if not menu_bar():
+                return
+            operate_delete_employee_manually()
+        case "4":
+            print("The function is delete employees from file")
+            if not menu_bar():
+                return
+            delete_employee_from_file("deleteEmployee.txt")
+        case "5":
+            print("The function is mark attendance")
+            if not menu_bar():
+                return
+            operate_check_attendance()
+        case "6":
+            print("The function is generate attendance report of an employee")
+            if not menu_bar():
+                return
+            operate_attendance_report_of_employee()
+        case "7":
+            print("The function is print a report for current month for all employees")
+            if not menu_bar():
+                return
+            operate_attendance_report_month()
+        case "8":
+            print("The function is print an attendance report for all employees wh were late(came after 9:30am)")
+            if not menu_bar():
+                return
+            late_report("attendance.txt")
+        case _:
+            print("Wrong,enter only one number and not letters")
+            return
+
+
 def menu_bar():
-    command = input("1.Continue 2.Back to menu Answer: ")
-    if command == "2":
-        return 2
-    elif command == "1":
-        return 1
-    else:
-        print("Wrong,enter only 1 or 2 and not letters")
-        return 0
+    command = input("1.Continue 2.Back to menu  Answer: ")
+    return True if command == "1" else False
+
+
+# Get details of the user such as id,name and age
+# Add the details of the user to the system
+def operate_add_employee_manually():
+    id_user = input("Enter id: ")
+    name = input("Enter name: ")
+    phone = input("Enter phone: ")
+    age = input("Enter age: ")
+    add_employee_manually(id_user, name, phone, age)
+
+
+# Get id of user and delete from the system
+def operate_delete_employee_manually():
+    id_user = input("Enter id: ")
+    delete_employee_manually(id_user)
+
+
+# Mark attendance of employee by id
+def operate_check_attendance():
+    id_user = input("Enter id: ")
+    check_attendance("attendance.txt", id_user)
+
+
+# Send the attendance report of employee by id
+def operate_attendance_report_of_employee():
+    id_user = input("Enter id ")
+    attendance_report_of_employee(id_user, "attendance.txt")
+
+
+# Send the attendance report monthly of employee by id
+def operate_attendance_report_month():
+    month = input("Enter month ")
+    attendance_report_month(month, "attendance.txt")
 
 
 # adding new employee by user to system and get message of function
