@@ -61,7 +61,7 @@ def operate_add_employee_manually():
     name = input("Enter name: ")
     phone = input("Enter phone: ")
     age = input("Enter age: ")
-    add_employee_manually(id_user, name, phone, age)
+    funcs.add_employee(id_user, name, phone, age)
 
 
 # Get id of user and delete from the system
@@ -88,19 +88,30 @@ def operate_attendance_report_month():
     attendance_report_month(month, "attendance.txt")
 
 
-# adding new employee by user to system and get message of function
-def add_employee_manually(id_user, name, phone, age):
-    print("Insert!") if funcs.add_employee(id_user, name, phone, age) else print("No change")
-
-
 # adding new employee by file to system and get message of function
 def add_employee_from_file(file):
-    status_add_new_employee(file) if file_exists(file) else print("Not exit ")
+    status_function("1", file, None, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
-# check the status of adding new employee and get message of workflow
-def status_add_new_employee(file):
-    print("Add new Employee") if funcs.add_employee_file(file) else print("No change")
+def status_function(choice, file, id_user, name, phone, age, month):
+    match choice:
+        case "1":
+            flag = funcs.add_employee_file(file)
+        case "2":
+            flag = funcs.delete_employee_file()
+        case "3":
+            flag = funcs.add_employee(id_user, name, phone, age)
+        case "4":
+            flag = funcs.attendance(id_user)
+        case "5":
+            flag = funcs.attendance_report(id_user)
+        case "6":
+            flag = funcs.attendance_report_month(month)
+        case "7":
+            flag = funcs.late_report()
+        case _:
+            flag = True
+    print("Success") if flag else print("Failed")
 
 
 # deleting employee to system and get message of function
@@ -110,46 +121,24 @@ def delete_employee_manually(id_user):
 
 # deleting employee from file to system and get message of function
 def delete_employee_from_file(file):
-    status_delete_employee() if file_exists(file) else print("Not exit ")
-
-
-# check the status of deleting new employee and get message of status
-def status_delete_employee():
-    print("Delete") if funcs.delete_employee_file() else print("No change")
+    status_function("2", None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance of employee from the system and get message of function
 def check_attendance(id_user, file):
-    status_attendance(id_user) if file_exists(file) else print("Not exit ")
-
-
-# check the status of attendance of employee and get message of workflow
-def status_attendance(id_user):
-    print("Mark ") if funcs.attendance(id_user) else print("No ")
+    status_function("4", None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance report of employee from the system and get message of function
 def attendance_report_of_employee(id_user, file):
-    status_attendance_report_of_employee(id_user) if file_exists(file) else print("Not exit ")
-
-
-# check the status of report attendance of employee and get message of workflow
-def status_attendance_report_of_employee(id_user):
-    if not funcs.attendance_report(id_user):
-        print("no attendance for this id")
+    status_function("5", None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance report monthly of employee from the system and get message of function
 def attendance_report_month(month, file):
-    status_attendance_report_month(month) if file_exists(file) else print("Not exit ")
-
-
-# check the status of report attendance month of employee and get message of workflow
-def status_attendance_report_month(month):
-    if not funcs.attendance_report_month(month):
-        print("No attendance ")
+    status_function("6", None, None, None, None, None, month) if file_exists(file) else print("Not exit ")
 
 
 # check the status of late report of employee and get message of workflow
 def late_report(file):
-    funcs.late_report() if file_exists(file) else print("Not exit ")
+    status_function("7", None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
