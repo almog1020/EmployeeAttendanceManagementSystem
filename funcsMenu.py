@@ -2,7 +2,7 @@ import funcs
 from os.path import exists as file_exists
 
 
-def transition_command(command):
+def transition_command(command: str):
     match command:
         case "1":
             print("The function is add employee manually")
@@ -49,7 +49,7 @@ def transition_command(command):
             return
 
 
-def menu_bar():
+def menu_bar() -> bool:
     command = input("1.Continue 2.Back to menu  Answer: ")
     return True if command == "1" else False
 
@@ -67,7 +67,7 @@ def operate_add_employee_manually():
 # Get id of user and delete from the system
 def operate_delete_employee_manually():
     id_user = input("Enter id: ")
-    delete_employee_manually(id_user)
+    status_function(8, id_user, None, None, None, None, None)
 
 
 # Mark attendance of employee by id
@@ -89,56 +89,54 @@ def operate_attendance_report_month():
 
 
 # adding new employee by file to system and get message of function
-def add_employee_from_file(file):
-    status_function("1", file, None, None, None, None, None) if file_exists(file) else print("Not exit ")
+def add_employee_from_file(file: str):
+    status_function(1, file, None, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
-def status_function(choice, file, id_user, name, phone, age, month):
+def status_function(choice: int, file: str or None, id_user: str or None, name: str or None,
+                    phone: str or None, age: int or None, month: str or None):
     match choice:
-        case "1":
+        case 1:
             flag = funcs.add_employee_file(file)
-        case "2":
+        case 2:
             flag = funcs.delete_employee_file()
-        case "3":
+        case 3:
             flag = funcs.add_employee(id_user, name, phone, age)
-        case "4":
+        case 4:
             flag = funcs.attendance(id_user)
-        case "5":
+        case 5:
             flag = funcs.attendance_report(id_user)
-        case "6":
+        case 6:
             flag = funcs.attendance_report_month(month)
-        case "7":
+        case 7:
             flag = funcs.late_report()
+        case 8:
+            flag = funcs.delete_employee(id_user)
         case _:
             flag = True
     print("Success") if flag else print("Failed")
 
 
-# deleting employee to system and get message of function
-def delete_employee_manually(id_user):
-    print("Delete!") if funcs.delete_employee(id_user) else print("No change")
-
-
 # deleting employee from file to system and get message of function
-def delete_employee_from_file(file):
-    status_function("2", None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
+def delete_employee_from_file(file: str):
+    status_function(2, None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance of employee from the system and get message of function
-def check_attendance(id_user, file):
-    status_function("4", None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
+def check_attendance(id_user: str, file: str):
+    status_function(4, None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance report of employee from the system and get message of function
-def attendance_report_of_employee(id_user, file):
-    status_function("5", None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
+def attendance_report_of_employee(id_user: str, file: str):
+    status_function(5, None, id_user, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
 # return the attendance report monthly of employee from the system and get message of function
-def attendance_report_month(month, file):
-    status_function("6", None, None, None, None, None, month) if file_exists(file) else print("Not exit ")
+def attendance_report_month(month: str, file: str):
+    status_function(6, None, None, None, None, None, month) if file_exists(file) else print("Not exit ")
 
 
 # check the status of late report of employee and get message of workflow
-def late_report(file):
-    status_function("7", None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
+def late_report(file: str):
+    status_function(7, None, None, None, None, None, None) if file_exists(file) else print("Not exit ")

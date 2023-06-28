@@ -4,7 +4,7 @@ from os.path import exists as file_exists
 
 
 # Check if employee is already existed
-def check_employee_existent(id_user, file):
+def check_employee_existent(id_user: str, file: str) -> bool:
     if file_exists(file):
         with open(file, "r") as file:
             for line in file:
@@ -16,7 +16,7 @@ def check_employee_existent(id_user, file):
 
 
 # Add new employee to the system.
-def add_employee(id_user, name, phone, age):
+def add_employee(id_user: str, name: str, phone: str, age: int) -> bool:
     # check the details of employee by functions
     new_id = check_id(id_user, True, "employee.txt")
     if new_id == "0":
@@ -71,7 +71,7 @@ def add_employee(id_user, name, phone, age):
 
 
 # For the exit
-def command():
+def command() -> str:
     choice = input("1.Continue 2.Exit Answer: ")
     while choice != "2":
         if choice == "1":
@@ -82,7 +82,7 @@ def command():
 
 # Check the syntax of id
 # The function checks id contain only numbers and the length is 9
-def validation_syntax_id(id_user):
+def validation_syntax_id(id_user: str) -> bool:
     if not id_user.isdigit():
         print("Id:The input need contention only numbers")
     elif len(id_user) != 9:
@@ -94,7 +94,7 @@ def validation_syntax_id(id_user):
 
 
 # Check the  syntax and existed of id
-def check_id(id_user, flag, file):
+def check_id(id_user: str, flag: bool, file: str) -> str:
     while True:
 
         if validation_syntax_id(id_user) or check_employee_existent(id_user, file) == flag:
@@ -107,12 +107,12 @@ def check_id(id_user, flag, file):
 
 
 # Check the  syntax of name
-def validation_syntax_name(name):
+def validation_syntax_name(name: str) -> bool:
     return print("Name:The input need contention only letter") and False if name.isalpha() else name
 
 
 # Check the syntax and existed of name
-def check_name(name):
+def check_name(name: str) -> str:
     while True:
         if validation_syntax_name(name):
             return name
@@ -124,7 +124,7 @@ def check_name(name):
 
 
 # Check the syntax of phone
-def validation_syntax_phone(phone):
+def validation_syntax_phone(phone: str) -> bool:
     if not phone.isdigit():
         print("Phone:The input need contention only numbers")
     elif len(phone) != 10:
@@ -138,7 +138,7 @@ def validation_syntax_phone(phone):
 
 
 # Check the syntax and existed of phone
-def check_phone(phone, flag, file):
+def check_phone(phone: str, flag: bool, file: str) -> str:
     while True:
         if validation_syntax_phone(phone) and check_employee_existent(phone, file) != flag:
             return phone
@@ -152,7 +152,7 @@ def check_phone(phone, flag, file):
 
 
 # Check the syntax of age
-def validation_syntax_age(age):
+def validation_syntax_age(age: str) -> bool:
     if not age.isdigit():
         print("Age:The input need contention only numbers")
     elif int(age) <= 0:
@@ -163,7 +163,7 @@ def validation_syntax_age(age):
 
 
 # Check the syntax and existed of age
-def check_age(age):
+def check_age(age: int) -> str:
     while True:
         if validation_syntax_age(age):
             return age
@@ -175,7 +175,7 @@ def check_age(age):
 
 
 # Delete employee from employee file
-def delete_employee(id_user):
+def delete_employee(id_user: str) -> bool or str:
     flag = False
     id_user = check_id(id_user, True, 'employee.txt')
 
@@ -187,13 +187,16 @@ def delete_employee(id_user):
 
     with open('employee.txt', 'w') as f:
         for line in employees:
-            f.write(line) if id_user not in line else flag = True
+            if id_user not in line:
+                f.write(line)
+            else:
+                flag = True
 
     return flag
 
 
 # Add employee from file.
-def add_employee_file(file):
+def add_employee_file(file: str) -> bool:
     with open(file, 'r') as f:
         lines = f.readlines()
     with open(file, 'w') as fw:
@@ -235,7 +238,7 @@ def add_employee_file(file):
 
 
 # Delete employee from file.
-def delete_employee_file():
+def delete_employee_file() -> bool:
     with open('deleteEmployee.txt', 'r') as f:
         lines = f.readlines()
     with open('deleteEmployee.txt', 'w') as fw:
@@ -260,7 +263,7 @@ def delete_employee_file():
 
 
 # Attendance of employee
-def attendance(id_user):
+def attendance(id_user: str) -> bool:
     if check_id(id_user, True, 'attendance.txt') == id_user and check_employee_existent(id_user, 'employee.txt'):
         with open('attendance.txt', 'a+') as mark:
             mark.write("\n")
@@ -270,7 +273,7 @@ def attendance(id_user):
 
 
 # Attendance report of employee
-def attendance_report(id_user):
+def attendance_report(id_user: str) -> bool:
     if check_id(id_user, False, 'attendance.txt') == id_user:
         with open("attendance.txt", "r") as mark:
             for line in mark:
@@ -281,8 +284,7 @@ def attendance_report(id_user):
 
 
 # Check the syntax month
-def validation_syntax_month(month):
-
+def validation_syntax_month(month: str) -> bool:
     if month.isalpha():
         print("The input need contention only letter")
     elif int(month) < 1 | int(month) > 12:
@@ -297,7 +299,7 @@ def validation_syntax_month(month):
 
 
 # Check month
-def check_month(month):
+def check_month(month: str) -> str:
     while True:
         if validation_syntax_month(month):
             return month
@@ -309,7 +311,7 @@ def check_month(month):
 
 
 # Attendance report month
-def attendance_report_month(month):
+def attendance_report_month(month: str) -> bool:
     flag = False
     if check_month(month) == month:
         new_month = "-" + month + "-"
