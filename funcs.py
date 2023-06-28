@@ -9,7 +9,9 @@ def check_employee_existent(id_user, file):
         with open(file, "r") as file:
             for line in file:
                 if id_user in line:
+                    print("The id is exited")
                     return True
+    print("The id isn't exited")
     return False
 
 
@@ -69,7 +71,8 @@ def add_employee(id_user, name, phone, age):
 
 
 # For the exit
-def command(choice):
+def command():
+    choice = input("1.Continue 2.Exit Answer: ")
     while choice != "2":
         if choice == "1":
             return input("Enter input: ")
@@ -77,100 +80,115 @@ def command(choice):
     return "2"
 
 
-# Check id terms
+# Check the syntax of id
+# The function checks id contain only numbers and the length is 9
+def validation_syntax_id(id_user):
+    if not id_user.isdigit():
+        print("Id:The input need contention only numbers")
+    elif len(id_user) != 9:
+        print("Id:The length doesnt good")
+    else:
+        return True
+
+    return False
+
+
+# Check the  syntax and existed of id
 def check_id(id_user, flag, file):
     while True:
-        if not id_user.isdigit():
-            print("Id:The input need contention only numbers")
-        elif len(id_user) != 9:
-            print("Id:The length doesnt good")
-        elif check_employee_existent(id_user, file) == flag:
-            if not flag:
-                print("The id isn't exited")
-            else:
-                print("The id is exited")
-        else:
+
+        if validation_syntax_id(id_user) or check_employee_existent(id_user, file) == flag:
             return id_user
-        choice_system = command(input("1.continue 2.exit Answer: "))
-        if choice_system == "2":
+
+        id_user = command()
+
+        if id_user == "2":
             return "0"
-        id_user = choice_system
 
 
-# Check name terms
+# Check the  syntax of name
+def validation_syntax_name(name):
+    return print("Name:The input need contention only letter") and False if name.isalpha() else name
+
+
+# Check the syntax and existed of name
 def check_name(name):
     while True:
-        if not name.isalpha():
-            print("Name:The input need contention only letter")
-        else:
+        if validation_syntax_name(name):
             return name
-        choice_system = command(input("1.continue 2.exit Answer: "))
-        if choice_system == "2":
+
+        name = command()
+
+        if name == "2":
             return "0"
-        name = choice_system
 
 
-# Check phone terms
+# Check the syntax of phone
+def validation_syntax_phone(phone):
+    if not phone.isdigit():
+        print("Phone:The input need contention only numbers")
+    elif len(phone) != 10:
+        print("Phone:The length doesnt good")
+    elif phone[0] != "0":
+        print("Phone:The input need start with a zero")
+    else:
+        return True
+
+    return False
+
+
+# Check the syntax and existed of phone
 def check_phone(phone, flag, file):
     while True:
-        if not phone.isdigit():
-            print("Phone:The input need contention only numbers")
-        if len(phone) != 10:
-            print("Phone:The length doesnt good")
-        elif phone[0] != "0":
-            print("Phone:The input need start with a zero")
-        elif check_employee_existent(phone, file) == flag:
-            print("Phone:The phone is exited")
-        else:
+        if validation_syntax_phone(phone) and check_employee_existent(phone, file) != flag:
             return phone
-        choice_system = command(input("1.continue 2.exit Answer: "))
-        if choice_system == "2":
+        else:
+            print("Phone:The phone is exited")
+
+        phone = command()
+
+        if phone == "2":
             return "0"
-        phone = choice_system
 
 
-# Check age terms
+# Check the syntax of age
+def validation_syntax_age(age):
+    if not age.isdigit():
+        print("Age:The input need contention only numbers")
+    elif int(age) <= 0:
+        print("Age:The input must be positive")
+    else:
+        return True
+    return False
+
+
+# Check the syntax and existed of age
 def check_age(age):
     while True:
-        if not age.isdigit():
-            print("Age:The input need contention only numbers")
-        elif int(age) <= 0:
-            print("Age:The input must be positive")
-        else:
+        if validation_syntax_age(age):
             return age
-        choice_system = command(input("1.continue 2.exit Answer: "))
-        if choice_system == "2":
+
+        age = command()
+
+        if age == "2":
             return "0"
-        age = choice_system
 
 
-# Delete employee.
+# Delete employee from employee file
 def delete_employee(id_user):
     flag = False
+    id_user = check_id(id_user, True, 'employee.txt')
 
-    while True:
-        if not id_user.isdigit():
-            print("Id:The input need contention only numbers")
-        elif len(id_user) != 9:
-            print("Id:The length doesnt good")
-        elif check_employee_existent(id_user, 'employee.txt'):
-            delete_id = id_user
-            break
-        else:
-            print("The id docent exited")
-        choice_system = command(input("1.continue 2.exit Answer: "))
-        if choice_system == "2":
-            return "0"
-        id_user = choice_system
+    if id_user == "0":
+        return "0"
 
     with open('employee.txt', 'r') as f:
         employees = f.readlines()
+
     with open('employee.txt', 'w') as f:
         for line in employees:
-            if delete_id not in line:
-                f.write(line)
-            else:
-                flag = True
+            f.write(line) if id_user not in line else flag = True
+
     return flag
 
 
@@ -262,23 +280,32 @@ def attendance_report(id_user):
     return False
 
 
+# Check the syntax month
+def validation_syntax_month(month):
+
+    if month.isalpha():
+        print("The input need contention only letter")
+    elif int(month) < 1 | int(month) > 12:
+        print("The input need to be between 01 to 12")
+    elif month[0] != "0":
+        print("The input need start with a zero ")
+    elif not check_employee_existent("-" + month + "-", "attendance.txt"):
+        print("The month doesnt exited")
+    else:
+        return True
+    return False
+
+
 # Check month
 def check_month(month):
     while True:
-        if month.isalpha():
-            print("The input need contention only letter")
-        elif int(month) < 1 | int(month) > 12:
-            print("The input need to be between 01 to 12")
-        elif month[0] != "0":
-            print("The input need start with a zero ")
-        elif not check_employee_existent("-" + month + "-", "attendance.txt"):
-            print("The month doesnt exited")
-        else:
+        if validation_syntax_month(month):
             return month
-        choice_system = command(input("1.continue 2.exit "))
-        if choice_system == "2":
+
+        month = command()
+
+        if month == "2":
             return "0"
-        month = choice_system
 
 
 # Attendance report month
