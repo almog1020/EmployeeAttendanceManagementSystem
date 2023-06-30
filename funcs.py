@@ -177,7 +177,6 @@ def check_age(age: str) -> str:
 
 # Delete employee from employee file
 def delete_employee(id_user: str) -> bool or str:
-    print("1")
     flag = False
     id_user = check_id(id_user, True, 'employee.txt')
 
