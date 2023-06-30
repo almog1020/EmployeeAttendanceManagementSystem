@@ -16,7 +16,7 @@ def check_employee_existent(id_user: str, file: str) -> bool:
 
 
 # Add new employee to the system.
-def add_employee(id_user: str, name: str, phone: str, age: int) -> bool:
+def add_employee(id_user: str, name: str, phone: str, age: str) -> bool:
     # check the details of employee by functions
     new_id = check_id(id_user, True, "employee.txt")
     if new_id == "0":
@@ -71,13 +71,14 @@ def add_employee(id_user: str, name: str, phone: str, age: int) -> bool:
 
 
 # For the exit
-def command() -> str:
-    choice = input("1.Continue 2.Exit Answer: ")
-    while choice != "2":
-        if choice == "1":
+def command() -> bool and str:
+    while True:
+        choice = input("1.Continue 2.Exit Answer: ")
+        if choice == "2":
+            return "0"
+        elif choice == "1":
             return input("Enter input: ")
-        choice = input("Wrong,enter only one number and not letters:1.continue 2.exit  Answer: ")
-    return "2"
+        print("Wrong,enter only one number and not letters:1.continue 2.exit  Answer: ")
 
 
 # Check the syntax of id
@@ -163,7 +164,7 @@ def validation_syntax_age(age: str) -> bool:
 
 
 # Check the syntax and existed of age
-def check_age(age: int) -> str:
+def check_age(age: str) -> str:
     while True:
         if validation_syntax_age(age):
             return age
@@ -300,20 +301,22 @@ def validation_syntax_month(month: str) -> bool:
 
 # Check month
 def check_month(month: str) -> str:
+
     while True:
         if validation_syntax_month(month):
             return month
 
         month = command()
 
-        if month == "2":
+        if not month:
             return "0"
 
 
 # Attendance report month
 def attendance_report_month(month: str) -> bool:
     flag = False
-    if check_month(month) == month:
+    month = check_month(month)
+    if month != "0":
         new_month = "-" + month + "-"
         with open("attendance.txt", "r") as mark:
             for line in mark:

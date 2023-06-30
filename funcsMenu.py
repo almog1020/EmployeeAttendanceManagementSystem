@@ -118,7 +118,7 @@ def status_function(choice: int, file: str or None, id_user: str or None, name: 
 
 
 # deleting employee from file to system and get message of function
-def delete_employee_from_file(file: str):
+def delete_employee_from_file(file: str) -> None:
     status_function(2, None, None, None, None, None, None) if file_exists(file) else print("Not exit ")
 
 
