@@ -13,7 +13,7 @@ class Employee:
 
     # Set id of employee with check the terms
     def set_id(self, id_user):
-        if not funcs.check_id(id_user, True, "employee.txt"):
+        if not funcs.check_id(id_user, "employee.txt"):
             return False
         self.employee_id = id_user
         return True
@@ -27,7 +27,7 @@ class Employee:
 
     # Set phone of employee with check the terms
     def set_phone(self, phone):
-        if not funcs.check_phone(phone, True, "employee.txt"):
+        if not funcs.check_phone(phone, "employee.txt"):
             return False
         self.employee_phone = phone
         return True
